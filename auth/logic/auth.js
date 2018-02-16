@@ -1,0 +1,1 @@
+//This file will be a middleware checking cookies to ensure that the user is still logged in
