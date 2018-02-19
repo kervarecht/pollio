@@ -1,14 +1,15 @@
 To-do List for Node Voting App
 
+CODE
+
 Create Authentication:
 Set up MongoDB backend for users (username and password hashed)
 Create login page
 Create sign-up page
 Set up passport local middleware
--install dependencies
--create sign up and sign in strategies for passport-local (hashing for passwords and bcrypt Compare for logins)
 -enable express session and passport session to check login status
 -create authentication middleware to verify session cookies
+-serialize and deserialize users
 - Use Q to implement promises and to avoid callback hell
 Set up passport social options
 Create logged-in templates based off user object (through mustache or handlebars.js)
@@ -18,3 +19,8 @@ Create Polls:
 Set up MongoDB collection for polls
 Set up home route to see existing polls, votes and ability to vote (no login required)
 Set up Create Poll option (must be logged in)
+
+TEST
+-create sign up and sign in strategies for passport-local (hashing for passwords and bcrypt Compare for logins) - DONE
+Mongo sign up function passport local
+Mongo login in function passport local
