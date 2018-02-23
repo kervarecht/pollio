@@ -37,6 +37,89 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
 
+//Session-persisted message middleware - I DON'T UNDERSTAND THIS SPECIFICALLY
+app.use(function(req, res, next){
+  var err = req.session.error,
+      msg = req.session.notice,
+      success = req.session.success;
+
+  delete req.session.error;
+  delete req.session.success;
+  delete req.session.notice;
+
+  if (err) res.locals.error = err;
+  if (msg) res.locals.notice = msg;
+  if (success) res.locals.success = success;
+
+  next();
+});
+
+
+//serialize and de-serialize
+passport.serializeUser(function(user, done){
+   console.log("Serializing user " + user.username);
+   done(null, user.username);
+});
+
+passport.deserializeUser(function(obj, done){
+   console.log("Deserializing user " + obj);
+   done(null, obj);
+   
+});
+
+//FUNCTION VERIFYING IF USER IS LOGGED IN
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  req.session.error = 'Please sign in!';
+  res.redirect('/signin');
+}
+
+//This function logs in a user and, if it's successful, changes the session middleware success and executes the callback function(rendering)
+//We are creating new local passport strategies called local-signin and local-signup
+passport.use('local-login', new LocalStrategy(
+  {passReqToCallback : true}, //allows us to pass back the request to the callback
+  function(req, username, password, done) {
+    funcs.localLogin(username, password)
+    .then(function (user) {
+      if (user) {
+        console.log("LOGGED IN AS: " + user.username);
+        req.session.success = 'You are successfully logged in ' + user.username + '!';
+        done(null, user);
+      }
+      if (!user) {
+        console.log("COULD NOT LOG IN");
+        req.session.error = 'Could not log user in. Please try again.'; //inform user could not log them in
+        done(null, user);
+      }
+    })
+    .fail(function (err){
+      console.log(err.body);
+    });
+  }
+));
+   
+passport.use('local-signup', new LocalStrategy(
+  {passReqToCallback : true}, //allows us to pass back the request to the callback
+  function(req, username, password, done) {
+    funcs.localReg(username, password)
+    .then(function (user) {
+      if (user) {
+        console.log("REGISTERED: " + user.username);
+        req.session.success = 'You are successfully registered and logged in ' + user.username + '!';
+        done(null, user);
+      }
+      if (!user) {
+        console.log("COULD NOT REGISTER");
+        req.session.error = 'That username is already in use, please try a different one.'; //inform user could not log them in
+        done(null, user);
+      }
+    })
+    .fail(function (err){
+      console.log(err.body);
+    });
+  }
+));
+
 //===========ROUTES==============//
 app.get('/', function(req, res){
    res.render("index", {user: req.username}); 
@@ -46,21 +129,20 @@ app.get('/login', function(req, res){
    res.render("login"); 
 });
 
-app.post('/login-user', function(req, res){
-   var request = {
-      'username' : req.body.username,
-      'password' : req.body.password
-   };
-   
-   funcs.localLogin(req.body.username, req.body.password);
-   //username is user1, password is hash for MongoDB test login
-   
-});
+app.post('/login-user', passport.authenticate('local-login', {
+   successRedirect: '/',
+   failureRedirect: '/login'
+}));
 
 //registering local user
 app.get('/signup', function(req, res){
    res.render('signup');
 });
+
+app.post('/signup-user', passport.authenticate('local-signup', {
+   successRedirect: '/',
+   failureRedirect: '/login'
+}));
 
 //==========PORT==============//
 var port = process.env.PORT || 5000;

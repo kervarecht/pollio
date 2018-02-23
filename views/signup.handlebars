@@ -1,4 +1,14 @@
 <script type="text/javascript" src="./js/signup.js"></script>
+<script type="text/javascript">
+    function passcheck(){
+       if ($("[name='password']").val() !== $("[name='password2'").val() && $("[name='password']").val().length > 0 ){
+           $("#mismatch").html("Values do not match!");
+       }
+       else {
+           $("#mismatch").html("Matching!");
+       }
+   }
+</script>
  <p>Enter a username and password</p>
     <div id="sign-local">
         <form action="/signup-user" method="post">
@@ -7,6 +17,9 @@
     </div>
     <div>
     <input type="password" name="password">
+    </div>
+    <div>
+    <input type="password" name="password2" onkeyup="passcheck()"><p id="mismatch"></p>
     </div>
     <input type="submit" id="signup" value="signup">
     </form>
