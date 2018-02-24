@@ -33,9 +33,10 @@ app.use(bodyParser.json());
 //=========PASSPORT===========//
 var funcs = require('./auth/logic/log-ops.js'); //import funcs.localLogin and funcs.LocalSignup
 var auth = require('./auth/logic/auth.js');  //import session verification
+app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
+
 
 //Session-persisted message middleware - I DON'T UNDERSTAND THIS SPECIFICALLY
 app.use(function(req, res, next){
@@ -58,7 +59,7 @@ app.use(function(req, res, next){
 //serialize and de-serialize
 passport.serializeUser(function(user, done){
    console.log("Serializing user " + user.username);
-   done(null, user.username);
+   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done){
@@ -122,7 +123,8 @@ passport.use('local-signup', new LocalStrategy(
 
 //===========ROUTES==============//
 app.get('/', function(req, res){
-   res.render("index", {user: req.username}); 
+  console.log(req.user);
+   res.render("index", {user: req.user}); 
 });
 //logging in local user
 app.get('/login', function(req, res){
@@ -140,9 +142,12 @@ app.get('/signup', function(req, res){
 });
 
 app.post('/signup-user', passport.authenticate('local-signup', {
-   successRedirect: '/',
    failureRedirect: '/login'
 }));
+
+app.get('/create-poll', ensureAuthenticated, function(req, res){
+  res.render('create-poll', {user: req.user});
+});
 
 //==========PORT==============//
 var port = process.env.PORT || 5000;

@@ -1,43 +1,5 @@
-<head>
-    <title>Polls</title>
-    
-    <!-- Scripts -->
-    <script type="text/javascript" src="./js/index.js"></script>
-
-</head>
 <body>
-    <!-- Load Template info from user object + Logout option, or link to Login in page if !user -->
-    {{#if user}}
-                <p class="navbar-text">
-                  <strong>Hi,</strong>
-                  {{user.username}}
-                </p>
-                </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                  <li>
-                    <a href="/logout">Log Out</a>
-                  </li>
-              {{else}}
-                <a href="/login">Sign In</a>
-                </li>
-              {{/if}}
-    <!-- Load ability to create polls for user if logged in -->
-    <!-- Load polls -->
-    <h1>Polls</h1>
-    
-     {{#if error}}
-      <p class="alert alert-warning">{{error}}</p>
-    {{/if}}
-
-    {{#if success}}
-      <p class="alert alert-success">{{success}}</p>
-    {{/if}}
-
-    {{#if notice}}
-      <p class="alert alert-info">{{notice}}</p>
-    {{/if}}
-
-    <!--where our other templates will insert-->
-    {{{body}}}
+    <p>This is the index page</p>
+    <p> You are logged in as {{user.username}}</p>
+  <!-- Load most recent polls -->
 </body>

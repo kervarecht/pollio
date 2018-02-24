@@ -12,8 +12,9 @@
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-  <!-- jQuery -->
+  <!-- jQuery and D3 -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
   </head>
 
   <body>
@@ -40,7 +41,6 @@
               {{#if user}}
                 <p class="navbar-text">
                   <strong>Hi,</strong>
-                  <img src="{{user.avatar}}" width="20" height="20">
                   {{user.username}}
                 </p>
                 </li>
@@ -49,8 +49,11 @@
                   <li>
                     <a href="/logout">Log Out</a>
                   </li>
+                  <li>
+                    <a href="/create-poll">Create Poll</a>
+                  </li>
               {{else}}
-                <a href="/signin">Sign In</a>
+                <a href="/login">Sign In</a>
                 </li>
               {{/if}}
           </ul>

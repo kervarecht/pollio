@@ -1,0 +1,20 @@
+<body>
+    <p>This is the poll-creation page</p>
+    <p> You are logged in as {{user.username}}</p>
+  <!-- Load most recent polls -->
+  <h3>Create Your Poll</h3>
+  <p>*Must have at least two options</p>
+  <div>
+  <form>
+    <input type="text" name="title">
+    <div id="options">
+    <span class="option"><input type="text" name="option-1"><p class="delete">Delete</p></span>
+    
+    <span class="option"><input type="text" name="option-2"><p class="delete">Delete</p></span>
+    
+    <button id="add-option">Add Option</button>
+    </div>
+    <input type="submit">
+  </form>
+  </div>
+</body>

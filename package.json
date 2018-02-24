@@ -4,7 +4,8 @@
   "description": "FCC Challenge Voting App",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass --watch scss -o css"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
     "express": "^3.5.0",
     "express-handlebars": "^3.0.0",
     "mongodb": "^2.2.11",
+    "node-sass": "^4.7.2",
     "passport": "^0.2.0",
     "passport-facebook": "^1.0.3",
     "passport-google": "^0.3.0",
