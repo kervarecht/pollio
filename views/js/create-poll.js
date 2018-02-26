@@ -1,13 +1,31 @@
+
+   
 $(document).ready(function(){
    console.log("jQuery working on create-poll");
-   var optionCount = 3;
+
+   var optionCount = 1;
    
-   $('#add-option').on('click', function(){
-      $('#options').append('<span class="option"><input type="text" name="option-' + optionCount + '"><p class="delete">Delete</p></span>');
+   
+
+$("#add-option").on('click', function(){
+      var optionHtml = "<p>Option: <input name='option-" + optionCount + "' type=text><button class='delete'>Delete</button> </p>";
+      $("#options").append(optionHtml);
+      console.log("Adding option: " + optionCount);
       optionCount++;
    });
    
-   $('.delete').on('click', function(){
-      console.log($(this).id);
+   $(document).on('click', '.delete', function(){
+      event.preventDefault();
+      console.log(event.target.parentElement);
+      event.target.parentElement.remove();
+   });  
+   
+   $("form").submit(function(poll){
+      if (optionCount <= 1){
+         poll.preventDefault();
+         console.log("Add another option");
+         alert("Add another option.")
+      }
    });
 });
+

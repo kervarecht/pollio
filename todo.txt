@@ -7,19 +7,24 @@ Set up MongoDB backend for users (username and password hashed) - DONE
 Create login page - DONE
 Create sign-up page - DONE
 Set up passport local middleware - DONE
--enable express session and passport session to check login status
--create authentication middleware to verify session cookies
--serialize and deserialize users
-- Use Q to implement promises and to avoid callback hell
+-enable express session and passport session to check login status - DONE
+-create authentication middleware to verify session cookies - DONE, somehow
+-serialize and deserialize users - DONE
+- Use Q to implement promises and to avoid callback hell - DONE
 Set up passport social options
-Create logged-in templates based off user object (through mustache or handlebars.js)
+Create logged-in templates based off user object (through mustache or handlebars.js) - DONE
 Ability to log out and end authentication session
 
 
 Create Polls:
-Set up MongoDB collection for polls
+Set up MongoDB collection for polls - DONE
 Set up home route to see existing polls, votes and ability to vote (no login required)
-Set up Create Poll option (must be logged in)
+Set up Create Poll option (must be logged in) - DONE
+Create ability to add and remove options from poll creation - DONE
+
+Presentation:
+Pass polls through to front-end - DONE
+Handle passed object poll on front-end into d3
 
 TEST
 -create sign up and sign in strategies for passport-local (hashing for passwords and bcrypt Compare for logins) - DONE

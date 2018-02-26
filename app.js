@@ -20,6 +20,8 @@ var hbs = exphbs.create({defaultLayout: 'main'});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+//poll operations
+var pollOps = require('./auth/logic/poll-ops.js')
 
 //=========STATIC FILES=========//
 app.use(express.static(__dirname + "/auth"));
@@ -72,7 +74,7 @@ passport.deserializeUser(function(obj, done){
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   req.session.error = 'Please sign in!';
-  res.redirect('/signin');
+  res.redirect('/login');
 }
 
 //This function logs in a user and, if it's successful, changes the session middleware success and executes the callback function(rendering)
@@ -124,7 +126,13 @@ passport.use('local-signup', new LocalStrategy(
 //===========ROUTES==============//
 app.get('/', function(req, res){
   console.log(req.user);
-   res.render("index", {user: req.user}); 
+  pollOps.loadPolls().then(function(result){
+    //doesn't work on the console.log, but comes through to the handlebars template so we can handle it, need to figure out how to get it through to d3
+    console.log(result);
+    res.render("index", {user: req.user, polls: JSON.stringify(result)}); 
+  });
+  
+   
 });
 //logging in local user
 app.get('/login', function(req, res){
@@ -147,6 +155,44 @@ app.post('/signup-user', passport.authenticate('local-signup', {
 
 app.get('/create-poll', ensureAuthenticated, function(req, res){
   res.render('create-poll', {user: req.user});
+});
+
+app.get('/search', function(req, res){
+  res.render('search', {user: req.user});
+})
+
+//search poll and return poll object
+app.post('/findpoll', function(req, res){
+  console.log(req.body.title);
+  pollOps.findPoll(req.body.title)
+  .then(function(result){
+    console.log(result);
+  });
+  
+});
+
+app.post('/new-poll', function(req, res){
+   var poll = {
+     creator: req.user.username,
+     title: req.body.title,
+     options: []
+   }
+   
+   
+   var optionNum = 1;
+   for (const key of Object.keys(req.body)) {
+    
+    if (key.includes('option')){
+      var option = {
+        optionName: req.body[key],
+        votes: 0
+      };
+      console.log(req.body[key])
+      poll.options.push(option);
+      optionNum++;
+    }
+    pollOps.createPoll(poll);
+}
 });
 
 //==========PORT==============//

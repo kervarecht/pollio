@@ -1,3 +1,7 @@
+<script type="text/javascript" src="./js/create-poll.js"></script>
+<script type="text/javascript">
+
+</script>
 <body>
     <p>This is the poll-creation page</p>
     <p> You are logged in as {{user.username}}</p>
@@ -5,16 +9,14 @@
   <h3>Create Your Poll</h3>
   <p>*Must have at least two options</p>
   <div>
-  <form>
-    <input type="text" name="title">
+  <form action="/new-poll" method="post">
+    <p>Title: <input type="text" name="title"></p>
     <div id="options">
-    <span class="option"><input type="text" name="option-1"><p class="delete">Delete</p></span>
-    
-    <span class="option"><input type="text" name="option-2"><p class="delete">Delete</p></span>
-    
-    <button id="add-option">Add Option</button>
+      
     </div>
-    <input type="submit">
+    <div><button id="add-option"><label>Add Option</label></button></div>
+    <!-- <div><button id="delete-option"><label>Delete Option</label></button></div> -->
+    <input type="submit" id="submit">
   </form>
   </div>
 </body>
