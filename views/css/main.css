@@ -1,4 +1,34 @@
-.option {
-  display: block; }
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto");
+h1 h2 h3 h4 h5 {
+  font-family: "Roboto"; }
+
+.polls-container {
+  border-top-style: solid;
+  border-top-color: black;
+  margin-bottom: 2px;
+  text-align: center; }
+
+.poll-title .poll-creator {
+  display: block;
+  text-align: center; }
+
+.vote-option {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  margin: 10px; }
+
+.ct-label {
+  font-size: 14px;
+  fill: black;
+  padding: 5px;
+  font-family: 'Open Sans', sans-serif; }
+
+.ct-chart {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  height: 50%; }
 
 /*# sourceMappingURL=main.css.map */

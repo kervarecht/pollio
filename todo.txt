@@ -24,7 +24,10 @@ Create ability to add and remove options from poll creation - DONE
 
 Presentation:
 Pass polls through to front-end - DONE
-Handle passed object poll on front-end into d3
+Handle passed object poll on front-end into chartist - DONE
+Create multiple charts based on passed-in data (use a counter?)
+Tweak chart presentation to be legible on front-end
+Change data presentation to donut chart
 
 TEST
 -create sign up and sign in strategies for passport-local (hashing for passwords and bcrypt Compare for logins) - DONE

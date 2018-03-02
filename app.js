@@ -125,15 +125,10 @@ passport.use('local-signup', new LocalStrategy(
 
 //===========ROUTES==============//
 app.get('/', function(req, res){
-  console.log(req.user);
-  pollOps.loadPolls().then(function(result){
-    //doesn't work on the console.log, but comes through to the handlebars template so we can handle it, need to figure out how to get it through to d3
-    console.log(result);
-    res.render("index", {user: req.user, polls: JSON.stringify(result)}); 
+  
+    res.render("index", {user: req.user}); 
   });
   
-   
-});
 //logging in local user
 app.get('/login', function(req, res){
    res.render("login"); 
@@ -195,6 +190,15 @@ app.post('/new-poll', function(req, res){
 }
 });
 
+app.get('/getpolls', function(req, res){
+  pollOps.loadPolls().then(function(result){
+    res.send(result);
+});
+});
+//need to set route to this from buttons on index.handlebars
+app.post('/vote', function(req, res){
+  console.log(req);
+});
 //==========PORT==============//
 var port = process.env.PORT || 5000;
 app.listen(port);
