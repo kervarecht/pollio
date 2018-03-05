@@ -148,6 +148,14 @@ app.post('/signup-user', passport.authenticate('local-signup', {
    failureRedirect: '/login'
 }));
 
+app.get('/logout', function(req, res){
+  var name = req.user.username;
+  console.log("Logging out " + name);
+  req.logout();
+  res.redirect('/');
+  req.session.notice = "You have successfully been logged out " + name + "!";
+});
+
 app.get('/create-poll', ensureAuthenticated, function(req, res){
   res.render('create-poll', {user: req.user});
 });
@@ -188,6 +196,7 @@ app.post('/new-poll', function(req, res){
     }
     pollOps.createPoll(poll);
 }
+res.redirect('/');
 });
 
 app.get('/getpolls', function(req, res){
@@ -195,9 +204,13 @@ app.get('/getpolls', function(req, res){
     res.send(result);
 });
 });
-//need to set route to this from buttons on index.handlebars
+
 app.post('/vote', function(req, res){
-  console.log(req);
+  pollOps.vote(req.body.poll, req.body.vote)
+  .then(function(result){
+    res.send("Vote successful!");
+  });
+  
 });
 //==========PORT==============//
 var port = process.env.PORT || 5000;

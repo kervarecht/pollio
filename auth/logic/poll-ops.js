@@ -32,7 +32,33 @@ exports.createPoll = function(pollObject){
 
 //Need to create a vote on poll option
 exports.vote = function(pollTitle, option){
+    var deferred = Q.defer();
     
+    mongo.connect(url, function(err, db){
+       if (err) throw err;
+       
+       var collection = db.collection('polls');
+       
+       collection.update({
+           'title': pollTitle
+       }, {
+           $inc : {
+               option: 1
+           }
+       })
+       .then(function(result){
+        if (result === null){
+            console.log("No poll by that title");
+            deferred.resolve(false);
+        }
+        else {
+            console.log("Voted!");
+            db.close();
+            deferred.resolve(result);
+        }
+       });
+    });
+    return deferred.promise;
 }
 
 //Need to create a retrieve 'x most recent' polls option
@@ -44,7 +70,7 @@ exports.loadPolls = function(){
         
         var collection = db.collection('polls');
         
-        collection.find().limit(3).toArray(function(err, result){
+        collection.find().limit(3).sort({$natural:-1}).toArray(function(err, result){
             if (err) throw err;
            if (result == null){
                console.log("Error retrieving polls");
@@ -85,4 +111,4 @@ exports.findPoll = function(pollTitle){
         });
     }));
     return deferred.promise;
-}
+};

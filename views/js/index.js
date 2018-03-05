@@ -20,6 +20,9 @@ $(document).ready(function(){
            //increment counter and track unique DOM node to attach chart to
            counter++;
            var voteOptions = poll.options;
+           //Separation of concerns - buttonLabels is used to generate front-end buttons and POST request
+           //pollLabels and pollVotes are used to generate values for Chartist
+           var buttonLabels = [];
            var pollLabels = [];
            var pollVotes = [];
            var title = poll.title;
@@ -27,14 +30,15 @@ $(document).ready(function(){
            
            //Create voting button for each option, title, and display user
            var voteButton = function(title, choice){
-               return '<button class="vote-option id="' + title + '" name="' + choice + '">' + choice + '</button>';
+               return '<button onclick="vote()" "class="vote-option" id="' + title + '" name="' + choice + '">' + choice + '</button>';
            }
            
            var displayTitle = "<h1 class='poll-title'>" + title + "</h1>";
            var displayCreator = "<h2 class='poll-creator'>A poll by: " + creator + "</h2>"
            
            voteOptions.forEach(function(option){
-              pollLabels.push(option.optionName);
+              buttonLabels.push(option.optionName);
+              pollLabels.push(option.optionName + ": " + option.votes);
               pollVotes.push(option.votes);
            });
            //creating each graph from poll object
@@ -43,12 +47,11 @@ $(document).ready(function(){
                series: pollVotes
            }
            
-                            
+            //setting chart size                
             var options = {
                 labelInterpolationFnc: function(value) {
                 return value[0]
                     },
-                    //figure out a way to make charts full size
                     width: "100%",
                     height: "100%"
             };
@@ -75,7 +78,7 @@ $(document).ready(function(){
             //create a title, display user and vote buttons
             $(menuTarget).append(displayTitle);
             $(menuTarget).append(displayCreator);
-            pollLabels.forEach(function(option){
+            buttonLabels.forEach(function(option){
                 $(menuTarget).append(voteButton(title, option))
                 
             });
@@ -89,6 +92,17 @@ $(document).ready(function(){
             
        });
        
-     
-
-  //dynamically send POST request to vote on polls
+//send POST request to route /vote with information on poll and selection  
+function vote() {
+    var pollName = event.target.id;
+    var optionName = event.target.name;
+    $.post('/vote', {
+        'poll' : pollName,
+        'vote' : optionName
+    }, 
+    function(data){
+        console.log(data);
+    });
+    $("#" + pollName).parent().append("<p>Voted Successfully!  Poll will update on refresh </p>")
+    
+}
