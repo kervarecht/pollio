@@ -15,11 +15,14 @@ $(document).ready(function(){
        
        //define poll object from server call
        var polls = Array.from(result);
+       
+       
        polls.forEach(function(poll){
            
            //increment counter and track unique DOM node to attach chart to
            counter++;
            var voteOptions = poll.options;
+           console.log(voteOptions);
            //Separation of concerns - buttonLabels is used to generate front-end buttons and POST request
            //pollLabels and pollVotes are used to generate values for Chartist
            var buttonLabels = [];
@@ -27,6 +30,14 @@ $(document).ready(function(){
            var pollVotes = [];
            var title = poll.title;
            var creator = poll.creator;
+           
+           //parsing object form from MongoDB into buttons, graph labels and graph amounts
+           for (key in voteOptions){
+               pollLabels.push(key + ": " + voteOptions[key]);
+               pollVotes.push(voteOptions[key]);
+               buttonLabels.push(key);
+           }
+           
            
            //Create voting button for each option, title, and display user
            var voteButton = function(title, choice){
@@ -36,11 +47,7 @@ $(document).ready(function(){
            var displayTitle = "<h1 class='poll-title'>" + title + "</h1>";
            var displayCreator = "<h2 class='poll-creator'>A poll by: " + creator + "</h2>"
            
-           voteOptions.forEach(function(option){
-              buttonLabels.push(option.optionName);
-              pollLabels.push(option.optionName + ": " + option.votes);
-              pollVotes.push(option.votes);
-           });
+           
            //creating each graph from poll object
            var data = {
                labels: pollLabels,
@@ -84,16 +91,27 @@ $(document).ready(function(){
             });
            
            new Chartist.Pie(chartTarget, data, options, responsiveOptions);
-            
-            
-           
             });
+            
            });
             
+            
+        //Define a function where if the user scrolls near the bottom, more polls are loaded (3 at a time)
+        $(window).scroll(function(){
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 50){
+             //   
+            } 
+        })
+        $(window).scroll(function() {
+   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+       alert("near bottom!");
+   }
+});
        });
        
 //send POST request to route /vote with information on poll and selection  
 function vote() {
+    var origin = event.target;
     var pollName = event.target.id;
     var optionName = event.target.name;
     $.post('/vote', {
@@ -101,8 +119,15 @@ function vote() {
         'vote' : optionName
     }, 
     function(data){
-        console.log(data);
-    });
-    $("#" + pollName).parent().append("<p>Voted Successfully!  Poll will update on refresh </p>")
+      
+    }).then(function(result){
+        //Need to update this to update the chart in real-time... track down the g/path element and increment it too
+        console.log("Result: " + result);
+        var buttonParent = "#" + origin.parentElement.id
+        //disable and hide vote buttons to prevent multiple voting
+        $(buttonParent).append("<p>Voted Successfully!  Poll will update on refresh </p>");
+        $(buttonParent + " button").attr('disabled', true).hide();
+        
+    })
     
 }

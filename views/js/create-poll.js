@@ -8,7 +8,7 @@ $(document).ready(function(){
    
 
 $("#add-option").on('click', function(){
-      var optionHtml = "<p>Option: <input name='option-" + optionCount + "' type=text><button class='delete'>Delete</button> </p>";
+      var optionHtml = "<p>Option: <input name='option-" + optionCount + "' type=text required><button class='delete' required>Delete</button> </p>";
       $("#options").append(optionHtml);
       console.log("Adding option: " + optionCount);
       optionCount++;
@@ -17,6 +17,7 @@ $("#add-option").on('click', function(){
    $(document).on('click', '.delete', function(){
       event.preventDefault();
       console.log(event.target.parentElement);
+      $(event.target).removeAttr('required');
       event.target.parentElement.remove();
    });  
    

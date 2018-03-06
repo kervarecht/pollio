@@ -36,14 +36,14 @@ exports.vote = function(pollTitle, option){
     
     mongo.connect(url, function(err, db){
        if (err) throw err;
-       
+       var voteChoice = "options." + option;
        var collection = db.collection('polls');
        
        collection.update({
-           'title': pollTitle
+           'title': pollTitle,
        }, {
            $inc : {
-               option: 1
+               [voteChoice] : 1
            }
        })
        .then(function(result){

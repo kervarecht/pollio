@@ -175,27 +175,28 @@ app.post('/findpoll', function(req, res){
 });
 
 app.post('/new-poll', function(req, res){
+   
+   
    var poll = {
      creator: req.user.username,
      title: req.body.title,
-     options: []
+     options: {}
    }
    
-   
-   var optionNum = 1;
+    var counter = 0;
    for (const key of Object.keys(req.body)) {
-    
-    if (key.includes('option')){
-      var option = {
-        optionName: req.body[key],
-        votes: 0
-      };
-      console.log(req.body[key])
-      poll.options.push(option);
-      optionNum++;
-    }
-    pollOps.createPoll(poll);
-}
+      
+      var nameOfOption = req.body[key]
+      //prevent title from being an option for some reason
+      if (nameOfOption == req.body.title){
+        continue;
+      }
+      else {
+      poll.options[nameOfOption] = 0;
+      }
+   };
+   pollOps.createPoll(poll);
+  
 res.redirect('/');
 });
 
@@ -209,6 +210,7 @@ app.post('/vote', function(req, res){
   pollOps.vote(req.body.poll, req.body.vote)
   .then(function(result){
     res.send("Vote successful!");
+    
   });
   
 });

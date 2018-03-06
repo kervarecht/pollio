@@ -1,5 +1,16 @@
 To-do List for Node Voting App
 
+USER STORIES
+User Story: As an authenticated user, I can keep my polls and come back later to access them.
+User Story: As an authenticated user, I can share my polls with my friends.
+User Story: As an authenticated user, I can see the aggregate results of my polls.
+User Story: As an authenticated user, I can delete polls that I decide I don't want anymore.
+User Story: As an authenticated user, I can create a poll with any number of possible items. - DONE
+User Story: As an unauthenticated or authenticated user, I can see and vote on everyone's polls. - DONE
+User Story: As an unauthenticated or authenticated user, I can see the results of polls in chart form. - DONE
+User Story: As an authenticated user, if I don't like the options on a poll, I can create a new option.
+User Story: More polls will load as I scroll down
+
 CODE
 
 Create Authentication:
@@ -18,18 +29,26 @@ Ability to log out and end authentication session
 
 Create Polls:
 Set up MongoDB collection for polls - DONE
-Set up home route to see existing polls, votes and ability to vote (no login required)
+Set up home route to see existing polls, votes and ability to vote - DONE
 Set up Create Poll option (must be logged in) - DONE
 Create ability to add and remove options from poll creation - DONE
+Create ability to add options to other people's polls while logged in
+Create ability to share polls
 
 Presentation:
 Pass polls through to front-end - DONE
 Handle passed object poll on front-end into chartist - DONE
 Create multiple charts based on passed-in data (use a counter?)
-Tweak chart presentation to be legible on front-end
+Tweak chart presentation to be legible on front-end - DONE
 Change data presentation to donut chart
 
 TEST
 -create sign up and sign in strategies for passport-local (hashing for passwords and bcrypt Compare for logins) - DONE
 Mongo sign up function passport local - DONE
 Mongo login in function passport local - DONE
+
+CHANGE MONGO SCHEMA
+- on app.js - DONE
+- on poll-ops.js - DONE
+- on index.js - DONE
+- on create-poll.js - DONE
