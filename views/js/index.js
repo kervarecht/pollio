@@ -10,6 +10,11 @@ $(document).ready(function(){
        return '<button class="poll-option" onclick="vote()" id="' + pollTitle + '" name="' + pollOption + '" >' + pollOption + '</button>';
    };
    
+   //create add option button for polls if user logged in
+   var addOption = function(pollTitle){
+       return '<div class="extra-option-div" id="poll-title-"'+ pollTitle + '-div"><button class="add-option-button" onclick="addOption()" id="' + pollTitle + '">Click to Add Extra Option</button></div>';
+   }
+   
    //Loading 3 poll graphs on load
    $.get('/getpolls', function(result){
        
@@ -91,10 +96,11 @@ $(document).ready(function(){
             });
            
            new Chartist.Pie(chartTarget, data, options, responsiveOptions);
+           $(menuTarget).append(addOption(title));
             });
             
            });
-            
+      
             
         //Define a function where if the user scrolls near the bottom, more polls are loaded (3 at a time)
         $(window).scroll(function(){
@@ -103,9 +109,9 @@ $(document).ready(function(){
             } 
         })
         $(window).scroll(function() {
-   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-       alert("near bottom!");
-   }
+           if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+               // alert("near bottom!");
+           }
 });
        });
        
@@ -130,4 +136,11 @@ function vote() {
         
     })
     
+}
+
+//Hide add-option button, insert form
+function addOption(){
+    var optionText = "<p>Type a new option and press submit</p>"
+    var optionForm = '<form method="post" action="/add-option"><input type="hidden" name="poll" value="' + event.target.id + '"><input type="text" class="option-input" name="option"><input type="submit"></form>';
+    $("#" + event.target.parentElement.id).closest('div').html(optionText + optionForm);
 }

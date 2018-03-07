@@ -214,6 +214,15 @@ app.post('/vote', function(req, res){
   });
   
 });
+
+app.post('/add-option', function(req, res){
+  pollOps.addOption(req.body.poll, req.body.option)
+  .then(function(result){
+    //console.log(result);
+    res.send("Added Option: " + req.body.option);
+  });
+});
+
 //==========PORT==============//
 var port = process.env.PORT || 5000;
 app.listen(port);

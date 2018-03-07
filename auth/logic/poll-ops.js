@@ -3,7 +3,7 @@ var Q = require('q'); //promises for database operations
 
 var url = process.env.MONGO_DATABASE;
 
-//Need to create a 'create poll option'
+//Function to create poll
 exports.createPoll = function(pollObject){
     var deferred = Q.defer();
     mongo.connect(url, function(err, db){
@@ -30,7 +30,7 @@ exports.createPoll = function(pollObject){
     return deferred.promise;
 }
 
-//Need to create a vote on poll option
+//Vote on poll option
 exports.vote = function(pollTitle, option){
     var deferred = Q.defer();
     
@@ -61,7 +61,7 @@ exports.vote = function(pollTitle, option){
     return deferred.promise;
 }
 
-//Need to create a retrieve 'x most recent' polls option
+//Retrieve 'x most recent' polls option, 3 by default
 exports.loadPolls = function(){
     var deferred = Q.defer();
     
@@ -112,3 +112,38 @@ exports.findPoll = function(pollTitle){
     }));
     return deferred.promise;
 };
+
+//Insert option into poll
+exports.addOption = function(pollTitle, option){
+    var deferred = Q.defer();
+    mongo.connect(url, function(err, db){
+        if (err) throw err;
+        //Need to create objects to inject into Mongo function OUTSIDE of it since
+        //cannot use variables as property names in object literals
+       var documentTitle = {'title': pollTitle};
+       var newOption = {}
+       newOption["options." + option] = 1;
+       var collection = db.collection('polls');
+       //find works, need to find and modify
+       collection.update(
+           documentTitle
+       ,
+       //update data
+            {
+                $set : newOption
+            }
+        )
+        .then(function(result){
+            if (result == null){
+                console.log("Couldn't update");
+                return deferred.resolve(false);
+            }
+            else {
+                console.log(result);
+                return deferred.resolve(result);
+            }
+        })
+       db.close();
+    });
+    return deferred.promise;
+}
