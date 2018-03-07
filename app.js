@@ -200,9 +200,15 @@ app.post('/new-poll', function(req, res){
 res.redirect('/');
 });
 
-app.get('/getpolls', function(req, res){
+app.get('/getpollsonload', function(req, res){
   pollOps.loadPolls().then(function(result){
     res.send(result);
+});
+});
+
+app.get('/getpoll', function(req, res){
+  pollsOps.loadSinglePoll(req.body.counter).then(function(result){
+  res.send(result);
 });
 });
 
@@ -218,9 +224,17 @@ app.post('/vote', function(req, res){
 app.post('/add-option', function(req, res){
   pollOps.addOption(req.body.poll, req.body.option)
   .then(function(result){
-    //console.log(result);
     res.send("Added Option: " + req.body.option);
   });
+});
+
+app.get('/checklogin', function(req, res){
+  if (req.isAuthenticated()){
+    res.send(true);
+  }
+  else {
+    res.send(false);
+  }
 });
 
 //==========PORT==============//

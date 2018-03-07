@@ -120,11 +120,11 @@ exports.addOption = function(pollTitle, option){
         if (err) throw err;
         //Need to create objects to inject into Mongo function OUTSIDE of it since
         //cannot use variables as property names in object literals
+        //so you write them outside and reference them in the operation
        var documentTitle = {'title': pollTitle};
        var newOption = {}
        newOption["options." + option] = 1;
        var collection = db.collection('polls');
-       //find works, need to find and modify
        collection.update(
            documentTitle
        ,
@@ -139,7 +139,6 @@ exports.addOption = function(pollTitle, option){
                 return deferred.resolve(false);
             }
             else {
-                console.log(result);
                 return deferred.resolve(result);
             }
         })
@@ -147,3 +146,7 @@ exports.addOption = function(pollTitle, option){
     });
     return deferred.promise;
 }
+
+exports.getSinglePoll = function(counter){
+    
+};
