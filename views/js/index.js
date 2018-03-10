@@ -1,6 +1,8 @@
+//track amount of dynamic polls loaded
+var counter = 0;
+
 $(document).ready(function(){
-    //count dynamic loads
-    var counter = 0;
+    
    //Loading 3 poll graphs on load
    $.get('/getpollsonload', function(result){
        console.log(result);
@@ -129,7 +131,8 @@ function createChart(poll, target){
             ];
 
 //define a target to insert into
-new Chartist.Pie(target, data, options, responsiveOptions);                
+new Chartist.Pie(target, data, options, responsiveOptions);        
+
 };
 //voting button
 var voteButton = function(title, choice){
@@ -160,19 +163,21 @@ var displayPollButton = function(title, option){
    };
 
 var addOptionButton = function(poll){
-    return '<button class="add-option-to-poll-button" name="' + poll + '" onclick="addOption()">Click to Add Option</button>';
+    return '<button class="add-option-to-poll-button" name="' + poll + '" onclick="viewAddOptionInput()">Click to Add Option</button>';
 }
    
 //create add option button for polls if user logged in
 //Check if user is logged in, hide add-option button, insert form
-function addOption(){
+function viewAddOptionInput(){
+    console.log(event.target);
+    var pollName = event.target.name;
     var optionText = "<p>Type a new option and press submit</p>"
     var optionForm = '<form method="post" action="/add-option"><input type="hidden" name="poll" value="' + event.target.id + '"><input type="text" class="option-input" name="option"><input type="submit"></form>';
-    var targetNode = "#" + event.target.parentElement.id;
+//    var targetNode = "#" + event.target.parentElement.id;
     
     $.get('/checklogin', function(data){
         if (data){
-            $(targetNode).closest('div').html(optionText + optionForm);
+            $(event.target).closest('div').append(optionText + optionForm);
         }
         else {
             alert("Please log in to use this function");
