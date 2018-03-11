@@ -15,10 +15,20 @@ $(document).ready(function(){
                counter++;
         
             });
-            
-            
-       });
+                
+            });
+    
+     
+
 });       
+
+//set document to recognize dynamically added content buttons
+$(document).on('click', '.add-option-to-poll-button', function(){
+    var pollName = event.target.name;
+    var target = event.target;
+    viewAddOptionInput(target, pollName);
+    });
+
 //send POST request to route /vote with information on poll and selection  
 function vote() {
     var origin = event.target;
@@ -168,16 +178,15 @@ var addOptionButton = function(poll){
    
 //create add option button for polls if user logged in
 //Check if user is logged in, hide add-option button, insert form
-function viewAddOptionInput(){
+//Consider fullpage div addition in order to avoid this whole issue and also force the person to either add an option or cancel
+function viewAddOptionInput(target, name){
     console.log(event.target);
-    var pollName = event.target.name;
-    var optionText = "<p>Type a new option and press submit</p>"
-    var optionForm = '<form method="post" action="/add-option"><input type="hidden" name="poll" value="' + event.target.id + '"><input type="text" class="option-input" name="option"><input type="submit"></form>';
-//    var targetNode = "#" + event.target.parentElement.id;
+    var optionText = "<p>Type a new option and press submit</p>";
+    var optionForm = '<form method="post" action="/add-option"><input type="hidden" name="poll" value="' + name + '"><input type="text" class="option-input" name="option"><input type="submit"></form>';
     
     $.get('/checklogin', function(data){
         if (data){
-            $(event.target).closest('div').append(optionText + optionForm);
+            $(target).html(optionText + optionForm);
         }
         else {
             alert("Please log in to use this function");
