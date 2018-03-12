@@ -29,6 +29,29 @@ $(document).on('click', '.add-option-to-poll-button', function(){
     viewAddOptionInput(target, pollName);
     });
 
+//Send new poll options to back-end via dynamic HTML elements
+$(document).on('click', '.submit-new-option-to-poll', function(){
+    var element = $(event.target);
+    var elementParent = $(event.target.parentElement);
+   var poll = element.data('target');
+   var option = element.prev().val();
+   
+   $.post('/add-option', {
+       'poll' : poll,
+       'option' : option
+   }, 
+   function(result){
+       console.log(result);
+       if (result == false){
+           elementParent.html("<p class='add-option-failure'> Failed to add option.  Please try again later. <p>");
+       }
+       else {
+           elementParent.html("<p class='add-option-success'> Option Added! </p>");
+       }
+   }
+   )
+});
+
 //send POST request to route /vote with information on poll and selection  
 function vote() {
     var origin = event.target;
@@ -173,7 +196,7 @@ var displayPollButton = function(title, option){
    };
 
 var addOptionButton = function(poll){
-    return '<button class="add-option-to-poll-button" name="' + poll + '" onclick="viewAddOptionInput()">Click to Add Option</button>';
+    return '<div class="add-option-to-poll-container-div"> <button class="add-option-to-poll-button" name="' + poll + '" onclick="viewAddOptionInput()">Click to Add Option</button></div>';
 }
    
 //create add option button for polls if user logged in
@@ -182,11 +205,11 @@ var addOptionButton = function(poll){
 function viewAddOptionInput(target, name){
     console.log(event.target);
     var optionText = "<p>Type a new option and press submit</p>";
-    var optionForm = '<form method="post" action="/add-option"><input type="hidden" name="poll" value="' + name + '"><input type="text" class="option-input" name="option"><input type="submit"></form>';
+    var optionForm = '<input type="textarea" class="option-input" "name="option"><input class="submit-new-option-to-poll" type="submit" data-target="' + name + '">';
     
     $.get('/checklogin', function(data){
         if (data){
-            $(target).html(optionText + optionForm);
+            $(target.parentElement).html(optionText + optionForm);
         }
         else {
             alert("Please log in to use this function");

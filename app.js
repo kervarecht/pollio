@@ -225,6 +225,10 @@ app.post('/add-option', function(req, res){
   pollOps.addOption(req.body.poll, req.body.option)
   .then(function(result){
     res.send("Added Option: " + req.body.option);
+  },
+  function(result){
+    res.send(false)
+    console.log("Error adding option: " + result);
   });
 });
 
