@@ -147,6 +147,33 @@ exports.addOption = function(pollTitle, option){
     return deferred.promise;
 }
 
-exports.getSinglePoll = function(counter){
+exports.getNextPoll = function(counter){
     
+};
+
+exports.allMyPolls = function(user){
+    var deferred = Q.defer();
+    mongo.connect(url, function(err, db){
+        if (err) throw err;
+        
+       var collection = db.collection('polls');
+       var search = {
+           'creator': user
+       };
+       
+       db.find(search, function(result){
+          if (result == null){
+            console.log('No results found');
+            deferred.resolve(false);
+          } 
+          else {
+              deferred.resolve(result);
+              
+          }
+          
+       });
+       
+       db.close();
+    });
+    return deferred.promise;
 };

@@ -125,7 +125,6 @@ passport.use('local-signup', new LocalStrategy(
 
 //===========ROUTES==============//
 app.get('/', function(req, res){
-  
     res.render("index", {user: req.user}); 
   });
   
@@ -133,6 +132,11 @@ app.get('/', function(req, res){
 app.get('/login', function(req, res){
    res.render("login"); 
 });
+
+app.get('/mypolls', ensureAuthenticated, function(req, res){
+  res.render('mypolls', {user: req.user});
+});
+
 
 app.post('/login-user', passport.authenticate('local-login', {
    successRedirect: '/',
