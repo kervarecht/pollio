@@ -137,7 +137,6 @@ app.get('/mypolls', ensureAuthenticated, function(req, res){
   res.render('mypolls', {user: req.user});
 });
 
-
 app.post('/login-user', passport.authenticate('local-login', {
    successRedirect: '/',
    failureRedirect: '/login'
@@ -151,6 +150,10 @@ app.get('/signup', function(req, res){
 app.post('/signup-user', passport.authenticate('local-signup', {
    failureRedirect: '/login'
 }));
+
+app.get('/whichuser', function(req, res){
+  res.send({user: req.user});
+});
 
 app.get('/logout', function(req, res){
   var name = req.user.username;
@@ -179,8 +182,6 @@ app.post('/findpoll', function(req, res){
 });
 
 app.post('/new-poll', function(req, res){
-   
-   
    var poll = {
      creator: req.user.username,
      title: req.body.title,
@@ -243,6 +244,18 @@ app.get('/checklogin', function(req, res){
   else {
     res.send(false);
   }
+});
+
+app.get('/allmypolls', function(req, res){
+  pollOps.allMyPolls(req.user.username)
+    .then(function(result){
+      res.send(result);
+    }, 
+    function(result){
+      console.log("Error: " + result);
+      res.send("Error: " +  result);
+    });
+  
 });
 
 //==========PORT==============//

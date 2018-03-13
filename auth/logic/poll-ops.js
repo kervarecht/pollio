@@ -161,18 +161,18 @@ exports.allMyPolls = function(user){
            'creator': user
        };
        
-       db.find(search, function(result){
-          if (result == null){
-            console.log('No results found');
-            deferred.resolve(false);
-          } 
-          else {
-              deferred.resolve(result);
-              
-          }
-          
-       });
-       
+       collection.find(search).toArray(function(err, result){
+            if (err) throw err;
+           if (result == null){
+               console.log("Error retrieving all polls");
+               deferred.resolve(false);
+           } 
+           else {
+               console.log("Found all results!");
+               deferred.resolve(result);
+           } 
+        });
+
        db.close();
     });
     return deferred.promise;
