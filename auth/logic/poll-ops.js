@@ -97,7 +97,10 @@ exports.findPoll = function(pollTitle){
         if (err) throw err;
         var collection = db.collection('polls');
         
-        collection.findOne({'title': pollTitle})
+        var searchTitle = {
+            'title': pollTitle
+        };
+        collection.findOne(searchTitle)
         .then(function(result){
            if (result == null){
                console.log("No poll with name " + pollTitle + " found.");
@@ -150,6 +153,7 @@ exports.addOption = function(pollTitle, option){
 exports.getNextPoll = function(counter){
     
 };
+
 
 exports.allMyPolls = function(user){
     var deferred = Q.defer();

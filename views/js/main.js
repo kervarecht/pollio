@@ -53,7 +53,8 @@ function createPollArea(poll){
            //create Header Div from a creator and title div
             var titleDiv = createPollHeaderType('poll-title', title);
             var creatorDiv = createPollHeaderType('poll-creator', creator);
-            var headerDiv = createPollHeaderType('poll-header', titleDiv + creatorDiv);
+            var shareButton = createShareButton(title);
+            var headerDiv = createPollHeaderType('poll-header', titleDiv + creatorDiv + shareButton);
             
             //create Options Div
             var pollOptionsDiv = createPollHeaderType('poll-options-div', buttonLabels.join(""));
@@ -128,6 +129,10 @@ var createPollHeaderType = function(headerClass, content){
     return '<div class="' + headerClass + '">' + content + "</div>"
 }
 
+//share button
+var createShareButton = function(title){
+    return '<button class="share-this-poll-button" data-poll="' + title + '">Share This Poll</button>';
+}
 //create title header
 var displayTitle = function(title){
     return "<h1 class='poll-title'>" + title + "</h1>";
@@ -161,3 +166,9 @@ function viewAddOptionInput(target, name){
         }
     });
 }
+
+//Allow share buttons on all pages if a poll is loaded
+$(document).on('click', ".share-this-poll-buttton", function(){
+    console.log(event.target);
+    
+})

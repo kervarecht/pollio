@@ -1,5 +1,8 @@
 <body>
     <h3>Search poll by Title:</h3>
+    {{#if message}}
+    <p class="search-failure">Please Try Again, No Result</p>
+    {{/if}}
     <form action="/findpoll" method="post">
     <p><input type="text" name="title"></p>
     <input type="submit">

@@ -133,6 +133,7 @@ app.get('/login', function(req, res){
    res.render("login"); 
 });
 
+//get all polls based on user in session
 app.get('/mypolls', ensureAuthenticated, function(req, res){
   res.render('mypolls', {user: req.user});
 });
@@ -151,16 +152,16 @@ app.post('/signup-user', passport.authenticate('local-signup', {
    failureRedirect: '/login'
 }));
 
-app.get('/whichuser', function(req, res){
-  res.send({user: req.user});
-});
-
 app.get('/logout', function(req, res){
   var name = req.user.username;
   console.log("Logging out " + name);
   req.logout();
   res.redirect('/');
   req.session.notice = "You have successfully been logged out " + name + "!";
+});
+
+app.get('/whichuser', function(req, res){
+  res.send({user: req.user});
 });
 
 app.get('/create-poll', ensureAuthenticated, function(req, res){
@@ -176,9 +177,15 @@ app.post('/findpoll', function(req, res){
   console.log(req.body.title);
   pollOps.findPoll(req.body.title)
   .then(function(result){
-    console.log(result);
-  });
+    if (result == null || result == false){
+      console.log("No result found");
+      res.render('search', {message: "No result"});
+    }
+    else {
+    res.render('singlepoll', {user: req.user, title: result.title});
+  }
   
+});
 });
 
 app.post('/new-poll', function(req, res){
@@ -212,10 +219,11 @@ app.get('/getpollsonload', function(req, res){
 });
 
 app.get('/getpoll', function(req, res){
-  pollsOps.loadSinglePoll(req.body.counter).then(function(result){
-  res.send(result);
-});
-});
+  pollOps.findPoll(req.query.title)
+  .then(function(result){
+    res.send(result);
+  })
+})
 
 app.post('/vote', function(req, res){
   pollOps.vote(req.body.poll, req.body.vote)
@@ -256,6 +264,10 @@ app.get('/allmypolls', function(req, res){
       res.send("Error: " +  result);
     });
   
+});
+
+app.get('/singlepoll', function(req, res){
+  res.render('singlepoll', {user : req.user, title: req.title});
 });
 
 //==========PORT==============//
