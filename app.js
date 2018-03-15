@@ -160,14 +160,17 @@ app.get('/logout', function(req, res){
   req.session.notice = "You have successfully been logged out " + name + "!";
 });
 
+//confirm which user is logged in
 app.get('/whichuser', function(req, res){
   res.send({user: req.user});
 });
 
+//load poll creation page
 app.get('/create-poll', ensureAuthenticated, function(req, res){
   res.render('create-poll', {user: req.user});
 });
 
+//load search page
 app.get('/search', function(req, res){
   res.render('search', {user: req.user});
 })
@@ -187,7 +190,7 @@ app.post('/findpoll', function(req, res){
   
 });
 });
-
+//Create poll based on request
 app.post('/new-poll', function(req, res){
    var poll = {
      creator: req.user.username,
@@ -212,12 +215,14 @@ app.post('/new-poll', function(req, res){
 res.redirect('/');
 });
 
+//transmit most recent polls to index page
 app.get('/getpollsonload', function(req, res){
   pollOps.loadPolls().then(function(result){
     res.send(result);
 });
 });
 
+//transmit single poll based on search query
 app.get('/getpoll', function(req, res){
   pollOps.findPoll(req.query.title)
   .then(function(result){
@@ -225,6 +230,7 @@ app.get('/getpoll', function(req, res){
   })
 })
 
+//receive vote request from front-end and update DB
 app.post('/vote', function(req, res){
   pollOps.vote(req.body.poll, req.body.vote)
   .then(function(result){
@@ -234,6 +240,7 @@ app.post('/vote', function(req, res){
   
 });
 
+//add option to poll in DB based on front-end req
 app.post('/add-option', function(req, res){
   pollOps.addOption(req.body.poll, req.body.option)
   .then(function(result){
@@ -254,6 +261,7 @@ app.get('/checklogin', function(req, res){
   }
 });
 
+//load all polls created by logged-in user
 app.get('/allmypolls', function(req, res){
   pollOps.allMyPolls(req.user.username)
     .then(function(result){
@@ -266,8 +274,20 @@ app.get('/allmypolls', function(req, res){
   
 });
 
+//return page for laoding single poll, along with poll title to load
 app.get('/singlepoll', function(req, res){
   res.render('singlepoll', {user : req.user, title: req.title});
+});
+
+app.get('/delete', ensureAuthenticated, function(req, res){
+  res.render('delete', {user: req.user, title: req.title});
+});
+
+app.post('/deletepoll', function(req, res){
+  pollOps.deletePoll(req.title)
+    .then(function(result){
+      
+    });
 });
 
 //==========PORT==============//

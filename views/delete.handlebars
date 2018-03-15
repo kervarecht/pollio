@@ -1,0 +1,14 @@
+   <script type="text/javascript" src="./js/delete.js"></script>
+   
+<body>
+    
+    <p> You are logged in as {{user.username}}</p>
+    <p>Are You Sure you Want to Delete this Poll?</p>
+  <!-- Load most recent polls -->
+  <p>Polls</p>
+  <input type="hidden" id="passed-poll" value="{{title}}">
+  <div id="polls-container-all" class="polls-container">
+      <button class="delete-poll">Delete (Cannot be undone!)</button>
+  </div>
+</body>
+

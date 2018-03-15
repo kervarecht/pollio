@@ -181,3 +181,30 @@ exports.allMyPolls = function(user){
     });
     return deferred.promise;
 };
+
+//delete poll
+exports.deletePoll = function(title){
+    var deferred = Q.defer()
+    
+    mongo.connect(url, function(err, db){
+       if (err) throw err;
+       
+       var collection = db.collection('polls');
+       
+       var searchTitle = {
+           'title': title
+       };
+       collection.remove(searchTitle, function(result){
+           if (result == null){
+               console.log("Couldn't find poll to delete " + result);
+               deferred.resolve(false);
+           }
+           else {
+               console.log("Removed!");
+               deferred.resolve(result);
+           }
+       });
+       db.close();
+    });
+    return deferred.resolve;
+}
