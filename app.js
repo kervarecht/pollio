@@ -160,9 +160,15 @@ app.get('/logout', function(req, res){
   req.session.notice = "You have successfully been logged out " + name + "!";
 });
 
-//confirm which user is logged in
+//confirm which user is logged in for delete request
 app.get('/whichuser', function(req, res){
+  console.log(req.user);
+  if (req.user == undefined){
+    res.send(false);
+  }
+  else {
   res.send({user: req.user});
+  }
 });
 
 //load poll creation page
@@ -279,14 +285,16 @@ app.get('/singlepoll', function(req, res){
   res.render('singlepoll', {user : req.user, title: req.title});
 });
 
-app.get('/delete', ensureAuthenticated, function(req, res){
-  res.render('delete', {user: req.user, title: req.title});
+app.get('/delete', function(req, res){
+  console.log("Delete GET received.");
+  console.log(req);
+  res.render('delete', {user: req.user, title: req.query.title});
 });
 
 app.post('/deletepoll', function(req, res){
   pollOps.deletePoll(req.title)
     .then(function(result){
-      
+      res.render('/', {user: req.user, message: "Poll deleted: " + req.title + "."});
     });
 });
 

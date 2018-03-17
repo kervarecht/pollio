@@ -59,7 +59,8 @@ function createPollArea(poll){
             //create Options Div
             var pollOptionsDiv = createPollHeaderType('poll-options-div', buttonLabels.join(""));
             var addOptionToPollDiv = createPollHeaderType('add-option-to-poll', addOptionButton(title));
-            var optionDiv = createPollHeaderType('poll-options-container', pollOptionsDiv + addOptionToPollDiv);
+            var deleteButtonDiv = addDeleteButton(title, creator);
+            var optionDiv = createPollHeaderType('poll-options-container', pollOptionsDiv + addOptionToPollDiv + deleteButtonDiv);
             //chart target
             var chartTarget = '<div id="' + title + '" + class="chart-container ct-chart"></div>' 
             
@@ -149,6 +150,10 @@ var displayPollButton = function(title, option){
 var addOptionButton = function(poll){
     return '<div class="add-option-to-poll-container-div"> <button class="add-option-to-poll-button" name="' + poll + '" onclick="viewAddOptionInput()">Click to Add Option</button></div>';
 }
+
+var addDeleteButton = function(poll, user){
+    return '<div class="delete-poll-div"><button class="delete-poll-button" onclick="deletePoll()" name="' + poll + '" data-namecheck="'+user+'">Delete Poll </button></div>';
+}
    
 //create add option button for polls if user logged in
 //Check if user is logged in, hide add-option button, insert form
@@ -165,6 +170,27 @@ function viewAddOptionInput(target, name){
             alert("Please log in to use this function");
         }
     });
+}
+
+function deletePoll(){
+    var nameToCheck = $(event.target).data('namecheck');
+    var pollTitle = event.target.name;
+    
+    $.get('/whichuser', function(response){
+        console.log(response)
+        if (response == false){
+            alert("Please Log In To Delete Your Polls.")
+        }
+        else if (response.user.username == nameToCheck){
+            console.log("This is your poll");
+            $.get('/delete', {title: pollTitle}, function(result){
+               
+            });
+        }
+        else {
+            alert("You cannot delete other users' polls!");
+        };
+    })
 }
 
 //Allow share buttons on all pages if a poll is loaded

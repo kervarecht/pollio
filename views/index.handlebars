@@ -4,6 +4,9 @@
     <p> You are logged in as {{user.username}}</p>
   <!-- Load most recent polls -->
   <p>Polls</p>
+  {{#if message}}
+  <p class="delete-message">{{message}}</p>
+  {{/if}}
   <div id="polls-container-all" class="polls-container">
       
   </div>
