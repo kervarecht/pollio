@@ -1,4 +1,5 @@
    <script type="text/javascript" src="./js/delete.js"></script>
+   <link rel="stylesheet" href="./css/delete.css">
    
 <body>
     
@@ -9,7 +10,7 @@
   <p>Polls</p>
   <input type="hidden" id="passed-poll" value="{{title}}">
   <div id="polls-container-all" class="polls-container">
-      <button class="delete-poll">Delete (Cannot be undone!)</button>
+      <form method="post" action="/deletepoll"><input type="hidden" name="title" value="{{title}}"><input type="submit" name="submit" value="Click to Delete Permanently"></form>
   </div>
 </body>
 

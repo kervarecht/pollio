@@ -53,7 +53,33 @@ $(document).on('click', '.submit-new-option-to-poll', function(){
    
 //function to load more on scroll
 $(window).scroll(function() {
-       if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-       // alert("near bottom!");
+       if($(window).scrollTop() + $(window).height() > $(document).height() - 50) {
+       loadOneMore(counter);
+       counter++;
        }
 });
+
+var loadOneMore = function(nthPoll){
+    if (nthPoll == undefined){
+        return "";
+    }
+    var theCounter = {
+        'counter': nthPoll
+    };
+    
+    $.get('/getnextpoll', theCounter, function(data){
+        if (data == false){
+            console.log("No more polls!");
+            killScroll();
+        }
+        else {
+            $("#polls-container-all").append(createPollArea(data));
+               createChart(data, $('.ct-chart').get(nthPoll));
+        }
+       
+    });
+}
+
+var killScroll = function(){
+    counter = undefined;
+}

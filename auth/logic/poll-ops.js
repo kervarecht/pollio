@@ -107,7 +107,7 @@ exports.findPoll = function(pollTitle){
                deferred.resolve(false);
            } 
            else {
-               console.log("Poll found: " + pollTitle);
+               // console.log("Poll found: " + pollTitle);
                deferred.resolve(result);
            }
            db.close();
@@ -151,7 +151,28 @@ exports.addOption = function(pollTitle, option){
 }
 
 exports.getNextPoll = function(counter){
+    var deferred = Q.defer();
     
+    mongo.connect(url, function(err, db){
+        if (err) throw err;
+        
+        var collection = db.collection('polls');
+        
+        
+        
+       collection.find().sort({$natural:-1}).toArray()
+        .then(function(result){
+           if (result == null){
+               console.log("No more polls!");
+               deferred.resolve(false);
+           } 
+           else {
+               deferred.resolve(result[counter]);
+           }
+        });
+        db.close();
+    });
+    return deferred.promise;
 };
 
 
@@ -194,17 +215,18 @@ exports.deletePoll = function(title){
        var searchTitle = {
            'title': title
        };
-       collection.remove(searchTitle, function(result){
-           if (result == null){
-               console.log("Couldn't find poll to delete " + result);
-               deferred.resolve(false);
+       collection.remove(searchTitle, {justOne: true}, function(err, result){
+           if (err) {
+               
+              console.log(err);
+              deferred.resolve(false);
            }
            else {
-               console.log("Removed!");
-               deferred.resolve(result);
+                console.log("Removed!");
+               deferred.resolve(true);
            }
        });
        db.close();
     });
-    return deferred.resolve;
+    return deferred.promise;
 }

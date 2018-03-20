@@ -228,6 +228,18 @@ app.get('/getpollsonload', function(req, res){
 });
 });
 
+app.get('/getnextpoll', function(req, res){
+  pollOps.getNextPoll(req.query.counter)
+  .then(function(result){
+    if (result == false){
+      res.send("No more polls!");
+    }
+    else {
+    res.send(result);
+    }
+  });
+});
+
 //transmit single poll based on search query
 app.get('/getpoll', function(req, res){
   pollOps.findPoll(req.query.title)
@@ -285,16 +297,26 @@ app.get('/singlepoll', function(req, res){
   res.render('singlepoll', {user : req.user, title: req.title});
 });
 
-app.get('/delete', function(req, res){
-  console.log("Delete GET received.");
-  console.log(req);
-  res.render('delete', {user: req.user, title: req.query.title});
+app.get('/delete', ensureAuthenticated, function(req, res){
+  if (req.user.username == req.query.user){
+    return res.render('delete', {user: req.user, title: req.query.title});
+  }
+  else {
+    return res.render('index', {user: req.user, message: "Cannot delete another user's polls!"});
+  }
+  
 });
 
 app.post('/deletepoll', function(req, res){
-  pollOps.deletePoll(req.title)
+  pollOps.deletePoll(req.body.title)
     .then(function(result){
-      res.render('/', {user: req.user, message: "Poll deleted: " + req.title + "."});
+      if (result == true){
+        return res.render('index', {user: req.user, message: "Poll deleted: " + req.body.title + "."});
+      }
+      else {
+        return res.render('index', {user: req.user, message: "Error deleting poll.  Please try again or contact administrator."})
+      }
+      
     });
 });
 

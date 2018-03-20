@@ -148,53 +148,30 @@ var displayPollButton = function(title, option){
    };
 
 var addOptionButton = function(poll){
+    if ($('#logged-in').val()) {
     return '<div class="add-option-to-poll-container-div"> <button class="add-option-to-poll-button" name="' + poll + '" onclick="viewAddOptionInput()">Click to Add Option</button></div>';
+    }
+    else {
+        return "";
+    }
 }
 
 var addDeleteButton = function(poll, user){
-    return '<div class="delete-poll-div"><button class="delete-poll-button" onclick="deletePoll()" name="' + poll + '" data-namecheck="'+user+'">Delete Poll </button></div>';
-}
-   
-//create add option button for polls if user logged in
-//Check if user is logged in, hide add-option button, insert form
-//Consider fullpage div addition in order to avoid this whole issue and also force the person to either add an option or cancel
-function viewAddOptionInput(target, name){
-    var optionText = "<p>Type a new option and press submit</p>";
-    var optionForm = '<input type="textarea" class="option-input" "name="option"><input class="submit-new-option-to-poll" type="submit" data-target="' + name + '">';
-    
-    $.get('/checklogin', function(data){
-        if (data){
-            $(target.parentElement).html(optionText + optionForm);
-        }
-        else {
-            alert("Please log in to use this function");
-        }
-    });
-}
-
-function deletePoll(){
-    var nameToCheck = $(event.target).data('namecheck');
-    var pollTitle = event.target.name;
-    
-    $.get('/whichuser', function(response){
-        console.log(response)
-        if (response == false){
-            alert("Please Log In To Delete Your Polls.")
-        }
-        else if (response.user.username == nameToCheck){
-            console.log("This is your poll");
-            $.get('/delete', {title: pollTitle}, function(result){
-               
-            });
-        }
-        else {
-            alert("You cannot delete other users' polls!");
-        };
-    })
+    if ($('#logged-in').val() == user){
+    return '<div class="delete-poll-div"><form action="delete" method="GET"><input type="hidden" name="title" value="' + poll + '"><input type="hidden" name="user" value="' + user + '"><input type="submit" class="delete-poll-button" value="Delete Poll"></input></form></div>';    
+    }
+    else {
+        return "";
+    }
 }
 
 //Allow share buttons on all pages if a poll is loaded
 $(document).on('click', ".share-this-poll-buttton", function(){
     console.log(event.target);
     
-})
+});
+
+//Define whether user is logged in
+$(document).ready(function(){
+    console.log();
+});

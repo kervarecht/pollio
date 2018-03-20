@@ -24,7 +24,7 @@ Set up passport local middleware - DONE
 - Use Q to implement promises and to avoid callback hell - DONE
 Set up passport social options
 Create logged-in templates based off user object (through mustache or handlebars.js) - DONE
-Ability to log out and end authentication session
+Ability to log out and end authentication session - DONE
 
 
 Create Polls:
@@ -32,7 +32,7 @@ Set up MongoDB collection for polls - DONE
 Set up home route to see existing polls, votes and ability to vote - DONE
 Set up Create Poll option (must be logged in) - DONE
 Create ability to add and remove options from poll creation - DONE
-Create ability to add options to other people's polls while logged in
+Create ability to add options to other people's polls while logged in - DONE
 Create ability to share polls
 
 Presentation:
@@ -41,6 +41,9 @@ Handle passed object poll on front-end into chartist - DONE
 Create multiple charts based on passed-in data (use a counter?)
 Tweak chart presentation to be legible on front-end - DONE
 Change data presentation to donut chart
+
+Delete Polls:
+Add Custom CSS to Delete page to hide vote and share links
 
 TEST
 -create sign up and sign in strategies for passport-local (hashing for passwords and bcrypt Compare for logins) - DONE

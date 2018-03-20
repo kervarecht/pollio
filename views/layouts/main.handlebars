@@ -46,6 +46,7 @@
           <ul class="nav navbar-nav">
             <li>
               {{#if user}}
+              <input type="hidden" id="logged-in" value={{user.username}}>
                 <p class="navbar-text">
                   <strong>Hi,</strong>
                   {{user.username}}
@@ -54,13 +55,16 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                   <li>
-                    <a href="/logout">Log Out</a>
+                    <a href="/index">Home</a>
                   </li>
                   <li>
                     <a href="/mypolls">My Polls</a>
                   </li>
                   <li>
                     <a href="/create-poll">Create Poll</a>
+                  </li>
+                  <li>
+                    <a href="/logout">Log Out</a>
                   </li>
               {{else}}
                 <a href="/login">Sign In</a>
