@@ -83,3 +83,5 @@ var loadOneMore = function(nthPoll){
 var killScroll = function(){
     counter = undefined;
 }
+
+//define share link click behavior

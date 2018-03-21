@@ -227,7 +227,7 @@ app.get('/getpollsonload', function(req, res){
     res.send(result);
 });
 });
-
+//respond to index.js GET request for next polls in list
 app.get('/getnextpoll', function(req, res){
   pollOps.getNextPoll(req.query.counter)
   .then(function(result){
@@ -258,7 +258,7 @@ app.post('/vote', function(req, res){
   
 });
 
-//add option to poll in DB based on front-end req
+//add option to poll in DB based on front-end req, must be logged in
 app.post('/add-option', function(req, res){
   pollOps.addOption(req.body.poll, req.body.option)
   .then(function(result){
@@ -292,7 +292,7 @@ app.get('/allmypolls', function(req, res){
   
 });
 
-//return page for laoding single poll, along with poll title to load
+//return page for loading single poll, along with poll title to load
 app.get('/singlepoll', function(req, res){
   res.render('singlepoll', {user : req.user, title: req.title});
 });
@@ -318,6 +318,10 @@ app.post('/deletepoll', function(req, res){
       }
       
     });
+});
+
+app.get('/sharepoll', function(req, res){
+  return res.render('singlepoll', {user: req.user, title: req.query.title});
 });
 
 //==========PORT==============//

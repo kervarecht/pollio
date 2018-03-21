@@ -132,7 +132,7 @@ var createPollHeaderType = function(headerClass, content){
 
 //share button
 var createShareButton = function(title){
-    return '<button class="share-this-poll-button" data-poll="' + title + '">Share This Poll</button>';
+    return '<button class="share-this-poll-button" data-clipboard-text="https://pollio-thibaultk.c9users.io/getpoll?title=' + title + '">Share This Poll</button>';
 }
 //create title header
 var displayTitle = function(title){
@@ -163,15 +163,9 @@ var addDeleteButton = function(poll, user){
     else {
         return "";
     }
-}
-
-//Allow share buttons on all pages if a poll is loaded
-$(document).on('click', ".share-this-poll-buttton", function(){
-    console.log(event.target);
     
+}//Allow share buttons on all pages if a poll is loaded
+$(document).on('click', ".share-this-poll-buttton", function(){
+    console.log($(event.target).data('clipboard-text'));
 });
 
-//Define whether user is logged in
-$(document).ready(function(){
-    console.log();
-});
