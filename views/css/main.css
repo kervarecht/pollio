@@ -1,7 +1,23 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto");
-/* div {
-    background-color: rgba(249, 34, 34, 0.2);
-} */
+body {
+  background-image: url("https://i.imgur.com/Aik3J4X.jpg"); }
+
+.container {
+  background-color: rgba(255, 255, 255, 0.5); }
+
+.pollio-title {
+  font-family: "Open Sans";
+  color: black; }
+
+.main-title {
+  font-size: 2.5em;
+  text-align: right;
+  text-shadow: rgba(100, 100, 100, 0.2) 1px 1px; }
+
+.secondary-title {
+  font-size: 1.5em;
+  text-align: right; }
+
 button {
   z-index: 1; }
 
@@ -11,7 +27,11 @@ button {
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   height: 80vh;
   max-height: 700px;
-  margin-bottom: 1.5em; }
+  margin-bottom: 1.5em;
+  border-bottom: 1px;
+  border-bottom-color: black;
+  border-bottom-style: dashed;
+  padding-bottom: 1.5em; }
 
 .poll-header {
   grid-column-start: 1;
@@ -37,6 +57,10 @@ button {
   grid-row-start: 1;
   grid-row-end: span 2; }
 
+.vote-header {
+  display: inline;
+  text-align: left; }
+
 .poll-creator {
   grid-column-start: 1;
   grid-column-end: span 2;
@@ -52,10 +76,11 @@ button {
 .poll-options-div {
   grid-column-start: 1;
   grid-column-end: span 10;
-  grid-row-start: 8; }
+  grid-row-start: 8;
+  justify-self: center; }
 
 .add-option-to-poll {
-  grid-column-start: 9;
+  grid-column-start: 7;
   grid-column-end: span 2;
   grid-row-start: 1;
   grid-row-end: span 1; }
@@ -63,15 +88,26 @@ button {
 .delete-poll-div {
   grid-column-start: 9;
   grid-column-end: span 2;
-  grid-row-start: 2; }
+  grid-row-start: 1; }
 
 .chart-container {
-  grid-row-start: 3;
-  grid-row-end: span 6;
+  grid-row-start: 2;
+  grid-row-end: span 5;
   grid-column-start: 3;
-  grid-column-end: span 7; }
+  grid-column-end: span 7;
+  padding-bottom: 1em;
+  margin-top: 4px;
+  overflow: visible; }
 
 .ct-chart-pie {
   overflow: visible; }
+
+.ct-label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+  color: black;
+  opacity: 1;
+  overflow: visible;
+  z-index: 1; }
 
 /*# sourceMappingURL=main.css.map */

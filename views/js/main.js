@@ -40,7 +40,8 @@ function createPollArea(poll){
            //the poll object passed to the function will have title, creator and multiple option pairs
            //pollLabels and pollVotes are used to generate values for Chartist
             var voteOptions = poll.options;
-            var buttonLabels = [];
+            var optionDivLabel = '<p class="vote-header">Cast your vote:</p>';
+            var buttonLabels = [optionDivLabel];
             var title = poll.title;
             var creator = poll.creator;
             
