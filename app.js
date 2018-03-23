@@ -292,9 +292,15 @@ app.get('/allmypolls', function(req, res){
   
 });
 
-//return page for loading single poll, along with poll title to load
+//return page for loading single poll, along with poll title to load through req.title
+//Also handles share page logic via req.query.title 
 app.get('/singlepoll', function(req, res){
-  res.render('singlepoll', {user : req.user, title: req.title});
+  if (req.title == undefined){
+    var pollTitle = req.query.title
+  }
+  else (pollTitle = req.title);
+  
+  res.render('singlepoll', {user : req.user, title: pollTitle});
 });
 
 app.get('/delete', ensureAuthenticated, function(req, res){

@@ -17,7 +17,7 @@ $(document).ready(function(){
                 
             });
     
-     
+    addShareListeners();
 
 });       
 
@@ -75,6 +75,7 @@ var loadOneMore = function(nthPoll){
         else {
             $("#polls-container-all").append(createPollArea(data));
                createChart(data, $('.ct-chart').get(nthPoll));
+               addShareListeners();
         }
        
     });
@@ -84,4 +85,3 @@ var killScroll = function(){
     counter = undefined;
 }
 
-//define share link click behavior

@@ -62,7 +62,7 @@ function createPollArea(poll){
             var deleteButtonDiv = addDeleteButton(title, creator);
             var optionDiv = createPollHeaderType('poll-options-container', pollOptionsDiv + addOptionToPollDiv + deleteButtonDiv);
             //chart target
-            var chartTarget = '<div id="' + title + '" + class="chart-container ct-chart"></div>' 
+            var chartTarget = '<div id="' + title + '" + class="chart-container ct-chart ct-square"></div>' 
             
            //concatenate overall structure and return
            var pollContainer = createPollHeaderType('poll-container', headerDiv + optionDiv + chartTarget);
@@ -132,7 +132,7 @@ var createPollHeaderType = function(headerClass, content){
 
 //share button
 var createShareButton = function(title){
-    return '<button class="share-this-poll-button" data-clipboard-text="https://pollio-thibaultk.c9users.io/getpoll?title=' + title + '">Share This Poll</button>';
+    return '<button class="share-this-poll-button" data-clipboard-text="' + title + '">Share This Poll</button>';
 }
 //create title header
 var displayTitle = function(title){
@@ -163,9 +163,23 @@ var addDeleteButton = function(poll, user){
     else {
         return "";
     }
-    
-}//Allow share buttons on all pages if a poll is loaded
-$(document).on('click', ".share-this-poll-buttton", function(){
-    console.log($(event.target).data('clipboard-text'));
-});
+}
 
+//define share button behavior
+/*
+$(document).on('click', '.share-this-poll-button', function(trigger){
+    var selector = $(event.target).data('clipboard-text');
+    
+    
+});
+*/
+var addShareListeners = function() {
+new ClipboardJS('.share-this-poll-button', {
+    text: function(trigger){
+        var requestPath = "https://pollio-thibaultk.c9users.io/singlepoll?title=";
+        var shareLink = requestPath + encodeURIComponent($(trigger).data('clipboard-text'));
+        $(trigger).html("Copied Link to Clipboard!");
+        return shareLink;
+    }
+});
+}

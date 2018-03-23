@@ -1,45 +1,98 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
 
-div {
+/* div {
     background-color: rgba(249, 34, 34, 0.2);
+} */
+
+button {
+    z-index: 1;
 }
 
-h1 h2 h3 h4 h5 {
-    font-family: "Roboto";
+.poll-container {
+  display: grid;
+  grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 80vh;
+  max-height: 700px;
+  margin-bottom: 1.5em;
 }
 
-.polls-container {
-    border-top-style: solid;
-    border-top-color: black;
-    margin-bottom: 2px;
-    text-align: center;
-
+.poll-header {
+  grid-column-start: 1;
+  grid-column-end: span 9;
+  grid-row-start: 1;
+  grid-row-end: span 7;
+  display: grid;
+  grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
-.poll-title .poll-creator {
-    display: block;
-    text-align: center;
+.poll-options-container {
+  grid-column-start: 1;
+  grid-column-end: span 9;
+  grid-row-start: 1;
+  grid-row-end: span 7;
+  display: grid;
+  grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.poll-title {
+  grid-column-start: 1;
+  grid-column-end: span 2;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+}
+
+.poll-creator {
+  grid-column-start: 1;
+  grid-column-end: span 2;
+  grid-row-start: 3;
+  grid-row-end: span 1;
+}
+
+.share-this-poll-button {
+  grid-column-start: 3;
+  grid-column-end: span 2;
+  grid-row-start: 1;
+  grid-row-end: span 1;
+}
+
+.poll-options-div {
+  grid-column-start: 1;
+  grid-column-end: span 10;
+  grid-row-start: 8;
+}
+
+.poll-option {
+  //style poll option buttons here
+}
+
+.add-option-to-poll {
+  grid-column-start: 9;
+  grid-column-end: span 2;
+  grid-row-start: 1;
+  grid-row-end: span 1;
+}
+
+.delete-poll-div {
+  grid-column-start: 9;
+  grid-column-end: span 2;
+  grid-row-start: 2;
+}
+
+.chart-container {
+  grid-row-start: 3;
+  grid-row-end: span 6;
+  grid-column-start: 3;
+  grid-column-end: span 7;
+  
+}
+
+.ct-chart-pie {
+  overflow: visible;
 }
 
 
-.vote-option {
-    width: auto;
-    height: auto;
-    display: inline-block;
-    margin: 10px;
-}
 
-.ct-label {
-    font-size: 14px;
-    fill: black;
-    padding: 5px;
-    font-family: 'Open Sans', sans-serif;
-}
 
-.ct-chart {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    height: 50%;
-}
