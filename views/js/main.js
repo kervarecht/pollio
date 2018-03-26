@@ -111,6 +111,7 @@ function createChart(poll, target){
               }],
               
             ];
+            
 
 //define a target to insert into
 new Chartist.Pie(target, data, options, responsiveOptions);        

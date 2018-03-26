@@ -1,9 +1,12 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Barlow");
 body {
-  background-image: url("https://i.imgur.com/Aik3J4X.jpg"); }
+  background-image: url("https://i.imgur.com/Aik3J4X.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-attachment: fixed; }
 
 .container {
-  background-color: rgba(255, 255, 255, 0.5); }
+  background-color: rgba(255, 255, 255, 0.6); }
 
 .pollio-title {
   font-family: "Open Sans";
@@ -19,7 +22,11 @@ body {
   text-align: right; }
 
 button {
-  z-index: 1; }
+  z-index: 1;
+  color: white;
+  text-transform: uppercase;
+  font-family: Barlow;
+  font-weight: 500; }
 
 .poll-container {
   display: grid;
@@ -55,7 +62,15 @@ button {
   grid-column-start: 1;
   grid-column-end: span 2;
   grid-row-start: 1;
-  grid-row-end: span 2; }
+  grid-row-end: span 1;
+  background-color: #0a3d62;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  text-size: 1.5em;
+  font-weight: 700;
+  color: white; }
 
 .vote-header {
   display: inline;
@@ -64,20 +79,36 @@ button {
 .poll-creator {
   grid-column-start: 1;
   grid-column-end: span 2;
-  grid-row-start: 3;
-  grid-row-end: span 1; }
+  grid-row-start: 2;
+  grid-row-end: span 1;
+  height: 100%;
+  width: 100%;
+  background-color: #079992;
+  text-align: center;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  text-size: 1.25em;
+  font-weight: 500; }
 
 .share-this-poll-button {
   grid-column-start: 3;
   grid-column-end: span 2;
   grid-row-start: 1;
-  grid-row-end: span 1; }
+  grid-row-end: span 1;
+  background-color: #1e3799;
+  border-style: none;
+  margin-left: 1em; }
 
 .poll-options-div {
   grid-column-start: 1;
   grid-column-end: span 10;
   grid-row-start: 8;
   justify-self: center; }
+
+.poll-option {
+  margin-left: 1em;
+  background-color: #3c6382;
+  border-style: none; }
 
 .add-option-to-poll {
   grid-column-start: 7;
@@ -107,6 +138,10 @@ button {
   font-size: 1.5em;
   color: black;
   opacity: 1;
+  overflow: visible;
+  fill: black; }
+
+text {
   overflow: visible;
   z-index: 1; }
 
