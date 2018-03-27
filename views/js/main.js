@@ -52,8 +52,8 @@ function createPollArea(poll){
            }
            
            //create Header Div from a creator and title div
-            var titleDiv = createPollHeaderType('poll-title', title);
-            var creatorDiv = createPollHeaderType('poll-creator', creator);
+            var titleDiv = createPollHeaderType('poll-title', makeItP(title));
+            var creatorDiv = createPollHeaderType('poll-creator', makeItP(creator));
             var shareButton = createShareButton(title);
             var headerDiv = createPollHeaderType('poll-header', titleDiv + creatorDiv + shareButton);
             
@@ -165,6 +165,10 @@ var addDeleteButton = function(poll, user){
     else {
         return "";
     }
+}
+
+var makeItP = function(element){
+    return "<p>" + element + "<p>";
 }
 
 //define share button behavior
