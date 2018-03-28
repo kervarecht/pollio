@@ -12,7 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var TwitterStrategy = require('passport-twitter');
 var FacebookStrategy = require('passport-facebook');
-var GoogleStrategy = require('passport-google');
+var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 
 //express handlebars
 var exphbs = require('express-handlebars');
@@ -40,7 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-//Session-persisted message middleware - I DON'T UNDERSTAND THIS SPECIFICALLY
+//Session-persisted message middleware
 app.use(function(req, res, next){
   var err = req.session.error,
       msg = req.session.notice,
@@ -123,6 +123,8 @@ passport.use('local-signup', new LocalStrategy(
   }
 ));
 
+
+
 //===========ROUTES==============//
 app.get('/', function(req, res){
     res.render("index", {user: req.user}); 
@@ -147,6 +149,16 @@ app.post('/login-user', passport.authenticate('local-login', {
 app.get('/signup', function(req, res){
    res.render('signup');
 });
+
+//logging in Google User
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
 app.post('/signup-user', passport.authenticate('local-signup', {
    failureRedirect: '/login'

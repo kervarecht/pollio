@@ -1,25 +1,35 @@
 <script type="text/javascript" src="./js/signup.js"></script>
 <script type="text/javascript">
     function passcheck(){
-       if ($("[name='password']").val() !== $("[name='password2'").val() && $("[name='password']").val().length > 0 ){
+       if ($("[name='password']").val().length < 8){
+           $("#mismatch").html("Password too short!");
+       }
+       else if ($("[name='password']").val() !== $("[name='password2'").val() && $("[name='password']").val().length > 0 ){
            $("#mismatch").html("Values do not match!");
        }
+       
        else {
            $("#mismatch").html("Matching!");
        }
    }
 </script>
+
  <p>Enter a username and password</p>
     <div id="sign-local">
         <form action="/signup-user" method="post">
         <div>
-    <input type="text" name="username">
+    Username: <input type="text" name="username">
     </div>
     <div>
-    <input type="password" name="password">
+    Password: <input type="password" name="password">
     </div>
     <div>
-    <input type="password" name="password2" onkeyup="passcheck()"><p id="mismatch"></p>
+    Repeat Password: <input type="password" name="password2" onkeyup="passcheck()"><p id="mismatch"></p>
+    </div>
+    <div>
+        E-mail: <input type="text" name="e-mail">
     </div>
     <input type="submit" id="signup" value="signup">
     </form>
+    
+    
