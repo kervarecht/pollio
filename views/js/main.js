@@ -37,6 +37,7 @@ function vote() {
 
 //creating chart area
 function createPollArea(poll){
+    
            //the poll object passed to the function will have title, creator and multiple option pairs
            //pollLabels and pollVotes are used to generate values for Chartist
             var voteOptions = poll.options;
@@ -72,49 +73,54 @@ function createPollArea(poll){
 }
 
 function createChart(poll, target){
+    console.log("Chart function called");  
+  
     var voteOptions = poll.options;
-    var chartLabels = [];
-    var chartVotes = [];
+    var chartInfo = [];
+    
     
     for (key in voteOptions){
-               chartLabels.push(key + ": " + voteOptions[key]);
-               chartVotes.push(voteOptions[key]);
-           }
-            
-    var data = {
-               labels: chartLabels,
-               series: chartVotes
-           }
-           
+               chartInfo.push({
+                   label: key + ": " + voteOptions[key],
+                   count: voteOptions[key]
+               });
+               
+           }  
+    //information will have to be in this format
 
-//setting chart size                
-            var options = {
-                labelInterpolationFnc: function(value) {
-                return value[0]
-                    },
-                    width: "100%",
-                    height: "100%"
-            };
-            
-            var responsiveOptions = [
-                ['screen and (min-width: 640px)', {
-                chartPadding: 30,
-                labelOffset: 50,
-                labelDirection: 'explode',
-                labelInterpolationFnc: function(value) {
-                return value;
-                    }
-              }],
-              ['screen and (min-width: 1024px)', {
-                labelOffset: 80,
-                chartPadding: 20
-              }],
-              
-            ];
-            
+// Defining width, height, radius
+var width = 360;
+var height = 360;
+var radius = Math.min(width, height) / 2;
 
-//define a target to insert into
-new Chartist.Pie(target, data, options, responsiveOptions);        
+//define colour scale (d3 has others)
+var color = d3.scaleOrdinal(d3.schemeCategory20b);
+
+//defines chart area
+var svg = d3.select(target)
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height)
+  .append('g')
+  .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+
+
+var arc = d3.arc()
+  .innerRadius(0)
+  .outerRadius(radius);
+  
+var pie = d3.pie()
+  .value(function(d) { return d.count; })
+  .sort(null);
+  
+var path = svg.selectAll('path')
+  .data(pie(chartInfo))
+  .enter()
+  .append('path')
+  .attr('d', arc)
+  .attr('fill', function(d, i) {
+    return color(d.data.label);
+  });
 
 };
 //voting button

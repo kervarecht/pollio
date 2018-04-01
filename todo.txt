@@ -1,5 +1,9 @@
 To-do List for Node Voting App
 
+Current branches:
+master
+d3-version
+
 USER STORIES
 User Story: As an authenticated user, I can keep my polls and come back later to access them. - DONE
 User Story: As an authenticated user, I can share my polls with my friends. - DONE
