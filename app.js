@@ -124,7 +124,6 @@ passport.use('local-signup', new LocalStrategy(
 ));
 
 
-
 //===========ROUTES==============//
 app.get('/', function(req, res){
     res.render("index", {user: req.user}); 
@@ -150,15 +149,6 @@ app.get('/signup', function(req, res){
    res.render('signup');
 });
 
-//logging in Google User
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
-
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
 
 app.post('/signup-user', passport.authenticate('local-signup', {
    failureRedirect: '/login'

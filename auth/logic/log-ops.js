@@ -53,7 +53,7 @@ exports.localLogin = function(username, password){
     return deferred.promise; //return promise either with user object or with false value for login failed
 }
 
-exports.localSignup = function(username, password){
+exports.localSignup = function(username, password, email){
     var deferred = Q.defer();
     
     mongo.connect(url, function(err, db){
@@ -74,7 +74,8 @@ exports.localSignup = function(username, password){
                 
                 var user = {
                     'username': username,
-                    'password': hash
+                    'password': hash,
+                    'email': email
                 }
                 
                 collection.insert(user)
@@ -88,3 +89,5 @@ exports.localSignup = function(username, password){
     })
     return deferred.promise;
 }
+
+
