@@ -52,6 +52,16 @@ body {
         font-size: 1.5em;
         text-align: right;
     }
+    
+.info-text {
+  font-size: 0.8em;
+  color: rgb(25, 25, 25);
+}
+
+.vote-header {
+  text-transform: uppercase;
+  color: rgb(25, 25, 25);
+}
 
 button {
     z-index: 1;
@@ -191,6 +201,17 @@ button {
   width: 100%;
 }
 
+.add-option-form {
+  background-color: $dark-sapphire;
+  border-style: none;
+  height: 100%;
+  width: 100%;
+}
+
+option-div-textbox {
+  width: 100%;
+}
+
 .delete-poll-div {
   margin-left: 1em;
   grid-column-start: 9;
@@ -224,6 +245,7 @@ button {
   padding-bottom: 1em;
   margin-top: 4px;
   overflow: visible;
+  margin-left: 5em;
 }
 
 
@@ -261,3 +283,14 @@ button {
   text-transform: uppercase;
   display: inline;
 }
+
+//d3 styling
+.legend {
+    font-size: 12px;
+  }
+  
+rect {
+    stroke-width: 2;
+  }
+  
+//end d3 styling

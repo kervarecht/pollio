@@ -22,6 +22,14 @@ body {
   font-size: 1.5em;
   text-align: right; }
 
+.info-text {
+  font-size: 0.8em;
+  color: #191919; }
+
+.vote-header {
+  text-transform: uppercase;
+  color: #191919; }
+
 button {
   z-index: 1;
   color: white;
@@ -144,6 +152,15 @@ button {
   height: 100%;
   width: 100%; }
 
+.add-option-form {
+  background-color: #0c2461;
+  border-style: none;
+  height: 100%;
+  width: 100%; }
+
+option-div-textbox {
+  width: 100%; }
+
 .delete-poll-div {
   margin-left: 1em;
   grid-column-start: 9;
@@ -173,7 +190,8 @@ button {
   grid-column-end: span 7;
   padding-bottom: 1em;
   margin-top: 4px;
-  overflow: visible; }
+  overflow: visible;
+  margin-left: 5em; }
 
 .ct-chart-pie {
   overflow: visible; }
@@ -205,5 +223,11 @@ button {
   font-family: 'Roboto';
   text-transform: uppercase;
   display: inline; }
+
+.legend {
+  font-size: 12px; }
+
+rect {
+  stroke-width: 2; }
 
 /*# sourceMappingURL=main.css.map */

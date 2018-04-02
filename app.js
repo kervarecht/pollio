@@ -262,13 +262,14 @@ app.post('/vote', function(req, res){
 
 //add option to poll in DB based on front-end req, must be logged in
 app.post('/add-option', function(req, res){
+  console.log("Received add option request");
+  console.log(req.body.poll, req.body.option);
   pollOps.addOption(req.body.poll, req.body.option)
   .then(function(result){
-    res.send("Added Option: " + req.body.option);
+    return res.render('index', {message: "Added Option: " + req.body.option});
   },
   function(result){
-    res.send(false)
-    console.log("Error adding option: " + result);
+    res.render('index', {message: "Error adding option: " + result});
   });
 });
 

@@ -88,10 +88,11 @@ function createChart(poll, target){
            }  
     //information will have to be in this format
 
-// Defining width, height, radius
-var width = 360;
-var height = 360;
+// Defining width, height, radius for circle and donut thickness
+var width = 300;
+var height = width;
 var radius = Math.min(width, height) / 2;
+var thickness = 50;
 
 //define colour scale (d3 has others)
 var color = d3.scaleOrdinal(d3.schemeCategory20b);
@@ -103,16 +104,20 @@ var svg = d3.select(target)
   .attr('height', height)
   .append('g')
   .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+  
 
 
-var arc = d3.arc()
-  .innerRadius(0)
+//define chart size
+var arc = d3.arc() 
+  .innerRadius(radius - thickness) //<--- defines donut shape by adding internal radius
   .outerRadius(radius);
   
+//chart type
 var pie = d3.pie()
   .value(function(d) { return d.count; })
   .sort(null);
   
+//target and enter chart  
 var path = svg.selectAll('path')
   .data(pie(chartInfo))
   .enter()
@@ -122,6 +127,34 @@ var path = svg.selectAll('path')
     return color(d.data.label);
   });
 
+
+//legend options
+var legendRectSize = 15;
+var legendSpacing = 4;
+
+var legend = svg.selectAll('.legend')
+    .data(color.domain())
+    .enter()
+    .append('g')
+    .attr('class', 'legend')
+    .attr('transform', function(d, i){
+       var height = legendRectSize + legendSpacing;
+        var offset =  height * color.domain().length / 2;
+        var horz = -2 * legendRectSize;
+        var vert = i * height - offset;
+        return 'translate(' + horz + ',' + vert + ')'; 
+    });
+
+legend.append('rect')
+  .attr('width', legendRectSize)
+  .attr('height', legendRectSize)
+  .style('fill', color)
+  .style('stroke', color);
+ 
+legend.append('text')
+  .attr('x', legendRectSize + legendSpacing)
+  .attr('y', legendRectSize - legendSpacing)
+  .text(function(d) { return d; });
 };
 //voting button
 var voteButton = function(title, choice){
@@ -194,4 +227,13 @@ new ClipboardJS('.share-this-poll-button', {
         return shareLink;
     }
 });
+}
+
+var viewAddOptionInput = function(){
+    var pollName = event.target.name
+    var sourceParent = $(event.target.parentElement);
+    console.log(event.target.parentElement);
+    console.log(event.target.parentNode);
+    var postRequest = '<form method=post action="/add-option" class="add-option-form"><input type="text" name="option"><input type="hidden" name="poll" value="' + pollName + '" class="option-div-textbox"> <input type="submit" class="button" value="Submit"></form>'
+    sourceParent.html(postRequest);
 }
