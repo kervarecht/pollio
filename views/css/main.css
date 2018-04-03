@@ -69,15 +69,16 @@ button {
 
 .poll-title {
   grid-column-start: 1;
-  grid-column-end: span 2;
+  grid-column-end: span 5;
   grid-row-start: 1;
   grid-row-end: span 1;
   background-color: #0a3d62;
+  text-transform: uppercase;
   height: 100%;
   width: 100%;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
-  text-size: 1.5em;
+  text-size: 2em;
   font-weight: 700;
   color: white;
   display: table; }
